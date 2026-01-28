@@ -110,23 +110,24 @@ export default function Puja() {
       </section>
 
       {/* ================= FILTER BAR ================= */}
-      <div className="bg-white sticky top-0 z-10 shadow-sm border-b border-orange-100">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex gap-6 text-sm overflow-x-auto">
-          {["All", "Dosha", "Marriage", "Shiv Puja", "Navgraha"].map((item) => (
-            <button
-              key={item}
-              onClick={() => setActiveFilter(item)}
-              className={
-                activeFilter === item
-                  ? "text-orange-600 font-semibold border-b-2 border-orange-500 pb-1 whitespace-nowrap"
-                  : "text-gray-600 hover:text-orange-500 font-medium transition whitespace-nowrap"
-              }
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-      </div>
+<div className="bg-white flex justify-center sticky top-16 z-20 shadow-sm border-b border-orange-100">
+  <div className="max-w-7xl mx-auto px-6 py-3 flex gap-6 text-sm overflow-x-auto">
+    {["All", "Dosha", "Marriage", "Shiv Puja", "Navgraha"].map((item) => (
+      <button
+        key={item}
+        onClick={() => setActiveFilter(item)}
+        className={
+          activeFilter === item
+            ? "text-orange-600 font-semibold border-b-2 border-orange-500 pb-1 whitespace-nowrap"
+            : "text-gray-600 hover:text-orange-500 font-medium transition whitespace-nowrap"
+        }
+      >
+        {item}
+      </button>
+    ))}
+  </div>
+</div>
+
 
       {/* ================= SERVICES GRID ================= */}
       <section className="max-w-7xl mx-auto px-6 py-14">

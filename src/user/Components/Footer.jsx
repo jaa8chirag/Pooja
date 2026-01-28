@@ -1,49 +1,65 @@
-import React from 'react';
+import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-orange-200 text-gray-700 py-12 px-6 md:px-20">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="bg-orange-50 text-gray-700">
+      <div className="max-w-7xl mx-auto px-5 py-10">
 
-        {/* Brand & Description */}
-        <div>
-          <h2 className="text-2xl font-bold text-orange-500 mb-4">Pooja Mandir</h2>
-          <p className="text-gray-600">
-            Connecting devotees with temples, online puja booking, astrology tools, and spiritual guidance.
-          </p>
-        </div>
+        {/* Top Section */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
 
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
-          <ul className="space-y-2">
-            <li><a href="/" className="hover:text-orange-500 transition">Home</a></li>
-            <li><a href="/puja" className="hover:text-orange-500 transition">Puja</a></li>
-            <li><a href="/temples" className="hover:text-orange-500 transition">Temples</a></li>
-            <li><a href="/astro-tools" className="hover:text-orange-500 transition">Astro Tools</a></li>
-            <li><a href="/contact" className="hover:text-orange-500 transition">Contact</a></li>
-          </ul>
-        </div>
-
-        {/* Contact & Social */}
-        <div>
-          <h3 className="text-xl font-semibold mb-4">Contact</h3>
-          <p>Email: <a href="mailto:info@sri-mandir.com" className="hover:text-orange-500">info@Pooja-mandir.com</a></p>
-          <p>Phone: <a href="tel:+911234567890" className="hover:text-orange-500">+91 123 456 7890</a></p>
-
-          <div className="flex space-x-4 mt-4">
-            <a href="#" className="hover:text-orange-500 transition text-2xl">🌐</a>
-            <a href="#" className="hover:text-orange-500 transition text-2xl">📘</a>
-            <a href="#" className="hover:text-orange-500 transition text-2xl">🐦</a>
-            <a href="#" className="hover:text-orange-500 transition text-2xl">📸</a>
+          {/* Brand */}
+          <div>
+            <h2 className="text-xl font-semibold text-orange-600">
+              Pooja Mandir
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-gray-600">
+              Book pujas, explore temples, and access trusted astrology tools —
+              all in one spiritual platform.
+            </p>
           </div>
+
+          {/* Links */}
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-800 mb-3">
+              Quick Links
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li><a className="hover:text-orange-600" href="/">Home</a></li>
+              <li><a className="hover:text-orange-600" href="/puja">Puja</a></li>
+              <li><a className="hover:text-orange-600" href="/temples">Temples</a></li>
+              <li><a className="hover:text-orange-600" href="/astro-tools">Astro Tools</a></li>
+              <li><a className="hover:text-orange-600" href="/contact">Contact</a></li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-800 mb-3">
+              Contact
+            </h3>
+            <p className="text-sm text-gray-600">
+              info@pooja-mandir.com
+            </p>
+            <p className="text-sm text-gray-600 mt-1">
+              +91 123 456 7890
+            </p>
+
+            {/* Social */}
+            <div className="flex gap-4 mt-4">
+              <a className="hover:text-orange-600" href="#">Facebook</a>
+              <a className="hover:text-orange-600" href="#">Twitter</a>
+              <a className="hover:text-orange-600" href="#">Instagram</a>
+            </div>
+          </div>
+
         </div>
 
-      </div>
+        {/* Bottom */}
+        <div className="border-t border-orange-200 mt-8 pt-4 text-center text-xs text-gray-500">
+          © {new Date().getFullYear()} Pooja Mandir. All rights reserved.
+        </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-gray-200 mt-8 pt-6 text-center text-gray-500 text-sm">
-        &copy; {new Date().getFullYear()} Pooja Mandir. All rights reserved.
       </div>
     </footer>
   );
