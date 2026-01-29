@@ -1,13 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import ReviewSection from "../Components/ReviewSection";
 
 export default function Home() {
-
   /* ================= DATA ================= */
-
-  const heroImages = [
-    "/img/temple.avif",
-    "/img/newImage1.jpg",
-    "/img/newImage2.jpg",
+  const heroSlides = [
+    {
+      title: "Pooja Mandir",
+      subtitle: "Divine Experience ✨",
+      desc: "Book pujas, explore temples and experience spirituality.",
+      img: "/img/slider1.webp", // landscape for desktop
+      imgMobile: "/img/portrait1.webp", // portrait for mobile
+    },
+    {
+      title: "Online Pooja",
+      subtitle: "Anywhere Anytime 🙏",
+      desc: "Perform sacred rituals from your home with trusted pandits.",
+      img: "/img/slider2.webp",
+      imgMobile: "/img/portrait2.webp",
+    },
+    {
+      title: "Daily Panchang",
+      subtitle: "Aaj ka Shubh Muhurat 📿",
+      desc: "Get accurate tithi and muhurat daily.",
+      img: "/img/slider3.webp",
+      imgMobile: "/img/portrait3.webp",
+    },
   ];
 
   const features = [
@@ -29,138 +46,135 @@ export default function Home() {
     { title: "Maha Shivratri", date: "25 Feb 2026", image: "/img/shivratri.avif" },
   ];
 
-  /* ================= HERO INTERACTION ================= */
-
-  const [current, setCurrent] = useState(0);
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % heroImages.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMouse({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
   const items = [
     { icon: "🕉️", text: "Trusted by 30 million+ people" },
     { icon: "🔒", text: "100% Secure" },
     { icon: "🏛️", text: "India’s Largest App for Hindu Devotees" },
   ];
 
-  /* ================= UI ================= */
+  /* ================= HERO SLIDER STATE ================= */
+  const [current, setCurrent] = useState(0);
+  const [transition, setTransition] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const sliderRef = useRef();
+
+  // Detect mobile screen
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Choose image based on device
+  const slidesToUse = heroSlides.map(slide => ({
+    ...slide,
+    img: isMobile ? slide.imgMobile : slide.img,
+  }));
+
+  // Infinite loop setup
+  const slides = [...slidesToUse, slidesToUse[0]];
+
+  // Auto-slide
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent(prev => prev + 1);
+    }, 2000); // 3s per slide
+    return () => clearInterval(interval);
+  }, []);
+
+  // Handle infinite loop jump
+  useEffect(() => {
+    if (current === slides.length - 1) {
+      setTimeout(() => {
+        setTransition(false); // remove transition for instant jump
+        setCurrent(0);
+      }, 2000); // match transition duration
+    } else {
+      setTransition(true);
+    }
+  }, [current, slides.length]);
 
   return (
-    <div className="bg-orange-200 min-h-screen">
+    <div>
+      <section className="relative h-[75vh] sm:h-[70vh] md:h-[80vh] overflow-hidden">
+        <div
+          ref={sliderRef}
+          className="flex h-full"
+          style={{
+            width: `${slides.length * 100}vw`,
+            transform: `translateX(-${current * 100}vw)`,
+            transition: transition ? "transform 1.5s ease-in-out" : "none",
+          }}
+        >
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className="w-screen h-full relative flex md:items-center"
+            >
+              {/* Image */}
+              <img
+                src={slide.img}
+                alt={slide.title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
 
-      {/* ================= HERO ================= */}
-<section
-  onMouseMove={handleMouseMove}
-  className="relative min-h-[92vh] md:min-h-[82vh] bg-gradient-to-br from-orange-50 via-white to-orange-100 overflow-hidden"
->
-  {/* Cursor-follow light */}
-  <div
-    className="absolute pointer-events-none w-[500px] h-[500px] bg-orange-400/25 rounded-full blur-3xl transition-transform duration-100"
-    style={{
-      transform: `translate(${mouse.x - 250}px, ${mouse.y - 250}px)`
-    }}
-  />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-black/30 z-0"></div>
 
-  <div className="relative max-w-7xl mx-auto px-6 md:px-20 py-24 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              {/* Text */}
+              <div
+                className={`z-10 px-4 sm:px-6 md:px-20
+            absolute bottom-6 left-4 md:static md:max-w-xl
+            space-y-3 sm:space-y-4`}
+              >
+                <span className="inline-block px-3 py-1 text-xs sm:text-sm md:text-sm font-semibold text-orange-600 bg-orange-100 rounded-full">
+                  {slide.subtitle}
+                </span>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white">
+                  Welcome to <br />
+                  <span className="text-white">{slide.title}</span>
+                </h1>
+                <p className="text-orange-100 max-w-xs sm:max-w-md md:max-w-lg">
+                  {slide.desc}
+                </p>
+                <div className="flex gap-3 sm:gap-4">
+                  <button className="px-4 py-2 sm:px-6 sm:py-3 bg-orange-500 text-white rounded-full shadow hover:scale-105 transition">
+                    Explore Now
+                  </button>
+                  <button className="px-4 py-2 sm:px-6 sm:py-3 border text-orange-500 border-orange-300 rounded-full hover:bg-orange-50 transition">
+                    Book Pooja
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
 
-    {/* TEXT */}
-    <div className="space-y-6 text-center md:text-left z-10">
-      <span className="inline-block px-4 py-1 text-sm font-semibold text-orange-600 bg-orange-100 rounded-full">
-        Divine Experience ✨
-      </span>
-
-      <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-gray-900">
-        Welcome to <br />
-        <span className="text-orange-500">Pooja Mandir</span> 🙏
-      </h1>
-
-      <p className="text-gray-600 text-base sm:text-lg max-w-lg mx-auto md:mx-0">
-        Book pujas, explore sacred temples, check daily panchang,
-        and experience spirituality in a modern way.
-      </p>
-
-      <div className="flex gap-4 justify-center md:justify-start">
-        <button className="px-6 py-3 bg-orange-500 text-white rounded-full shadow-xl hover:scale-105 transition">
-          Explore Now
-        </button>
-        <button className="px-6 py-3 border border-orange-300 rounded-full hover:bg-orange-50 transition">
-          Book Pooja
-        </button>
-      </div>
-    </div>
-
-    {/* IMAGE SLIDER */}
-    <div className="relative h-[300px] sm:h-[380px] md:h-[350px] w-full">
-      {heroImages.map((img, index) => {
-        const offset = index - current;
-
-        return (
-          <div
-            key={index}
-            className="absolute inset-0 flex items-center justify-center transition-all duration-700 ease-out"
-            style={{
-              transform: `
-                translateX(${offset * 30}px)
-                translateY(${offset * 20}px)
-                scale(${index === current ? 1 : 0.92})
-              `,
-              zIndex: heroImages.length - Math.abs(offset),
-              opacity: Math.abs(offset) > 2 ? 0 : 1
-            }}
-          >
-            <div className="absolute w-[80%] h-[80%] bg-orange-400/30 blur-[100px] rounded-full" />
-
-            <img
-              src={img}
-              alt="Pooja Mandir"
-              className="w-[85%] h-[85%] object-cover"
-              style={{
-                maskImage:
-                  "radial-gradient(ellipse at center, black 55%, transparent 78%)",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse at center, black 55%, transparent 78%)",
-              }}
-            />
-          </div>
-        );
-      })}
-    </div>
-  </div>
-
-  {/* DOTS */}
-  <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex gap-4">
-    {heroImages.map((_, index) => (
-      <button
-        key={index}
-        onClick={() => setCurrent(index)}
-        className={`transition-all ${
-          index === current
-            ? "w-8 h-2 bg-orange-500 rounded-full"
-            : "w-2 h-2 bg-orange-300 rounded-full"
-        }`}
-      />
-    ))}
-  </div>
-</section>
+        {/* Dots */}
+        <div className="absolute bottom-4 sm:bottom-6 w-full flex justify-center gap-2 sm:gap-3 z-20">
+          {slidesToUse.map((_, index) => {
+            const isActive = current === index || (current === slides.length - 1 && index === 0);
+            return (
+              <div key={index} className="w-6 sm:w-8 h-1 sm:h-2 bg-white/30 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-white rounded-full"
+                  style={{
+                    width: isActive ? "100%" : "0%",
+                    transition: `width ${isActive ? 3 : 0}s linear`,
+                  }}
+                ></div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
 
 
-      {/* ================= Horizonal sliding window ================= */}
-      <section className="bg-orange-500 overflow-hidden py-4">
+      {/* ================= HORIZONTAL SCROLLING ITEMS ================= */}
+      <section className="bg-orange-500 overflow-hidden  py-4">
         <div className="relative">
-          {/* Track container */}
           <div className="flex animate-marquee whitespace-nowrap">
             {items.concat(items).map((item, index) => (
               <div
@@ -174,18 +188,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Animation CSS */}
         <style jsx>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          display: flex;
-          gap: 4rem;
-          animation: marquee 10s linear infinite;
-        }
-      `}</style>
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee {
+            display: flex;
+            gap: 4rem;
+            animation: marquee 8s linear infinite;
+          }
+        `}</style>
       </section>
 
       {/* ================= FEATURES ================= */}
@@ -200,6 +213,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+
 
       {/* ================= TESTIMONIALS ================= */}
       <section className="bg-orange-50 py-20">
@@ -216,6 +230,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <ReviewSection/>
+
 
       {/* ================= EVENTS ================= */}
       <section className="bg-white py-20">
@@ -235,7 +252,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
     </div>
   );
 }

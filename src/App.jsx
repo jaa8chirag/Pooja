@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserLayout from "./user/layout/UserLayout";
+import UserLayout from "./user/Layout/UserLayout";
 
-import Home from "./user/pages/Home";
-import Puja from "./user/pages/Puja";
-import Katha from "./user/pages/Katha";
+import Home from "./user/Pages/Home";
+import Puja from "./user/Pages/Puja";
+import Katha from "./user/Pages/Katha";
 import Products from "./user/Pages/Products";
 import Gallery from "./user/Pages/Gallery";
-import Pind_Dan from "./user/pages/Pind_Dan";
+import Pind_Dan from "./user/Pages/Pind_Dan";
 function App() {
   return (
     <BrowserRouter>
