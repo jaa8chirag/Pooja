@@ -5,28 +5,28 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 const reviewsData = [
   {
     name: "Sita Sharma",
-    avatar: "/img/review1.webp",
+    avatar: "/img/review1.jpg",
     date: "5 months ago",
     rating: 5,
     comment: "Amazing service! The puja was conducted beautifully and on time.",
   },
   {
     name: "Ramesh Gupta",
-    avatar: "/img/review2.webp",
+    avatar: "/img/review2.jpg",
     date: "5 months ago",
     rating: 5,
     comment: "Highly recommended! Very easy to book online and trusted pandits.",
   },
   {
     name: "Anita Singh",
-    avatar: "/img/review3.webp",
+    avatar: "/img/review3.jpg",
     date: "5 months ago",
     rating: 5,
     comment: "I loved the experience. The pandit guided everything perfectly.",
   },
   {
     name: "Rajesh Kumar",
-    avatar: "/img/review4.webp",
+    avatar: "/img/review4.jpg",
     date: "5 months ago",
     rating: 5,
     comment: "Simple, smooth, and professional. Will book again!",
@@ -45,7 +45,8 @@ export default function ReviewSection() {
   };
 
   return (
-    <section className="bg-gray-50 py-16">
+    <>
+    <section className="bg-[#fff8ec] py-16">
       {/* Heading + Google Rating */}
       <div className="max-w-7xl mx-auto px-6 md:px-20 text-center mb-8">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -135,5 +136,6 @@ export default function ReviewSection() {
         </a>
       </div>
     </section>
+    </>
   );
 }
